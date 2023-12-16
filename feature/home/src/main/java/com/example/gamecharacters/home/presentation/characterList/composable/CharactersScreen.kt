@@ -103,6 +103,7 @@ private fun HandleEvents(events: Flow<CharactersEvent>) {
     events.collectWithLifecycle {
         when (it) {
             is CharactersEvent.ExampleEvent -> {}
+            else -> {}
         }
     }
 }

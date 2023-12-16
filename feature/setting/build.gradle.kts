@@ -1,31 +1,24 @@
-@Suppress("DSL_SCOPE_VIOLATION")
+@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.detekt)
     alias(libs.plugins.junit)
     alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ktlint)
-    alias(libs.plugins.hilt)
 }
 
 android {
-    namespace = "com.example.gamecharacters.network"
+    namespace = "com.example.gamecharacters.setting"
     compileSdk = libs.versions.compileSdk.get().toInt()
-    with(defaultConfig) {
 
+    defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
-        targetSdk = libs.versions.targetSdk.get().toInt()
-    }
 
-   defaultConfig {
-        buildConfigField("String", "THRONES_API_URL", "\"https://thronesapi.com/api/v2/\"")
-    }
-
-    buildFeatures {
-        compose = true
-        buildConfig = true
-
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -38,32 +31,30 @@ android {
         }
     }
 
-    compileOptions {
-
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+    buildFeatures {
+        compose = true
     }
 
-    kotlinOptions {
-        freeCompilerArgs = listOf(
-            "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
-            "-opt-in=kotlinx.coroutines.FlowPreview",
-            "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
-            "-opt-in=kotlinx.serialization.ExperimentalSerializationApi"
-        )
-        jvmTarget = JavaVersion.VERSION_17.toString()
+    compileOptions {
+        isCoreLibraryDesugaringEnabled = true
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
+
+    kotlinOptions {
+        freeCompilerArgs = listOf(
+            "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+            "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api"
+        )
+        jvmTarget = JavaVersion.VERSION_17.toString()
+    }
 }
 
 dependencies {
-
-    implementation(project(":core:designsystem"))
-    implementation(project(":core:navigation"))
-    implementation(project(":core:extensions"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.appcompat)
@@ -73,19 +64,18 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.accompanist.swipe.refresh)
     implementation(libs.androidx.material3)
-    implementation(libs.hilt)
     implementation(libs.kotlin.coroutines)
-    implementation(libs.kotlin.serialization)
-    implementation(libs.kotlin.serialization.converter)
     implementation(libs.lifecycle.runtime.compose)
     implementation(libs.navigation)
-    implementation(libs.okhttp.logging.interceptor)
+    implementation(libs.kotlin.serialization)
     implementation(libs.retrofit)
+    implementation(libs.room)
     implementation(libs.timber)
-
-    kapt(libs.hilt.compiler)
-    kaptAndroidTest(libs.test.android.hilt.compiler)
+    implementation(libs.lifecycle.runtime.compose)
+    coreLibraryDesugaring(libs.desugar)
 
     detektPlugins(libs.detekt.compose.rules)
+
 }

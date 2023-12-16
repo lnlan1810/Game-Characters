@@ -1,4 +1,13 @@
 @file:Suppress("UnstableApiUsage")
+
+include(":feature:find")
+
+
+include(":feature:profile")
+
+
+include(":feature:setting")
+
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -21,7 +30,7 @@ include(":core:di")
 include(":core:extensions")
 include(":core:navigation")
 include(":core:network")
-include(":core:ui")
+include(":core:designsystem")
 
 include(":feature:home")
 

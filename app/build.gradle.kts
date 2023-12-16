@@ -63,9 +63,12 @@ dependencies {
     implementation(project(":core:di"))
     implementation(project(":core:extensions"))
     implementation(project(":core:navigation"))
-    implementation(project(":core:ui"))
+    implementation(project(":core:designsystem"))
 
     implementation(project(":feature:home"))
+    implementation(project(":feature:find"))
+    implementation(project(":feature:setting"))
+    implementation(project(":feature:profile"))
 
     implementation(libs.hilt)
     implementation(libs.navigation)
@@ -87,6 +90,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -94,6 +98,23 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    implementation(libs.material)
+    testImplementation(libs.junit)
+    implementation(libs.lifecycle.runtime.compose)
+    implementation(libs.navigation)
+    implementation(libs.navigation.hilt)
+    implementation(libs.kotlin.serialization)
+    implementation(libs.timber)
+    implementation(libs.lifecycle.runtime.compose)
+
+
+    kapt(libs.hilt.compiler)
+    //kaptAndroidTest(libs.test.android.hilt.compiler)
+
+    coreLibraryDesugaring(libs.desugar)
+
+    detektPlugins(libs.detekt.compose.rules)
 }
 
 ksp {
