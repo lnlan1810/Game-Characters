@@ -7,7 +7,9 @@ plugins {
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.ksp)
     alias(libs.plugins.ktlint)
-
+    alias(libs.plugins.google.services)
+    alias (libs.plugins.firebase.crashlytics)
+    alias (libs.plugins.firebase.performance)
 }
 
 android {
@@ -18,8 +20,11 @@ android {
         applicationId = "com.example.gamecharacters"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
-        versionCode = 2
-        versionName = "2.0"
+        versionCode = 3
+        versionName = "3.0"
+        vectorDrawables {
+            useSupportLibrary = true
+        }
 
     }
 
@@ -52,6 +57,9 @@ android {
         kotlinCompilerExtensionVersion = libs.versions.composeKotlinCompiler.get()
     }
     packagingOptions {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
         resources.excludes.add("/META-INF/{AL2.0,LGPL2.1}")
     }
 }
@@ -63,22 +71,31 @@ dependencies {
     implementation(project(":core:di"))
     implementation(project(":core:extensions"))
     implementation(project(":core:navigation"))
-    implementation(project(":core:ui"))
+    implementation(project(":core:designsystem"))
 
     implementation(project(":feature:home"))
+    implementation(project(":feature:find"))
+    implementation(project(":feature:setting"))
+    implementation(project(":feature:profile"))
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.cloudmessaging)
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.dynamiclinks)
+    implementation(libs.firebase.performance)
+    implementation(libs.firebase.remoteconfig)
 
     implementation(libs.hilt)
     implementation(libs.navigation)
     implementation(libs.room.ktx)
     implementation(libs.timber)
-
+    implementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(platform(libs.androidx.compose.bom))
     kapt(libs.hilt.compiler)
     ksp(libs.room.compiler)
-
     coreLibraryDesugaring(libs.desugar)
-
     detektPlugins(libs.detekt.compose.rules)
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -87,6 +104,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -94,6 +112,21 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    implementation(libs.material)
+    testImplementation(libs.junit)
+    implementation(libs.lifecycle.runtime.compose)
+    implementation(libs.navigation)
+    implementation(libs.navigation.hilt)
+    implementation(libs.kotlin.serialization)
+    implementation(libs.timber)
+    implementation(libs.lifecycle.runtime.compose)
+    testImplementation(libs.bundles.common.test)
+    androidTestImplementation(libs.bundles.common.android.test)
+    kapt(libs.hilt.compiler)
+    coreLibraryDesugaring(libs.desugar)
+
+    detektPlugins(libs.detekt.compose.rules)
 }
 
 ksp {
