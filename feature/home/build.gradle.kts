@@ -1,5 +1,6 @@
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
+    //alias(libs.plugins.androidApplication)
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.detekt)
@@ -8,6 +9,7 @@ plugins {
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ktlint)
+
 }
 
 android {
@@ -18,7 +20,7 @@ android {
         minSdk = libs.versions.minSdk.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
+        //consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -57,7 +59,7 @@ android {
 
 dependencies {
     implementation(project(":core:base"))
-    implementation(project(":core:ui"))
+    implementation(project(":core:designsystem"))
     implementation(project(":core:navigation"))
     implementation(project(":core:extensions"))
 
@@ -67,7 +69,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.accompanist.swipe.refresh)
     implementation(libs.coil)
@@ -82,11 +83,10 @@ dependencies {
     implementation(libs.room)
     implementation(libs.timber)
     implementation(libs.lifecycle.runtime.compose)
-
-
     kapt(libs.hilt.compiler)
-    //kaptAndroidTest(libs.test.android.hilt.compiler)
-
+    kaptAndroidTest(libs.test.android.hilt.compiler)
+    testImplementation(libs.bundles.common.test)
+    androidTestImplementation(libs.bundles.common.android.test)
     coreLibraryDesugaring(libs.desugar)
 
     detektPlugins(libs.detekt.compose.rules)
