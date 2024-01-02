@@ -2,7 +2,7 @@ name: Android Build
 
 on:
   pull_request:
-    branches: [ completed_features ]
+    branches: [ main ]
 
 jobs:
   build:
